@@ -1,3 +1,22 @@
 <ion-app>
     <ion-router-outlet></ion-router-outlet>
+    <ion-tabs>
+        <ion-tab-bar slot="bottom">
+            <ion-tab-button tab="home">
+                <ion-icon name="calendar"></ion-icon>
+                <ion-label>TODO</ion-label>
+                <ion-badge>{{($todos | async)?.length}}</ion-badge>
+            </ion-tab-button>
+
+            <ion-tab-button tab="done">
+                <ion-icon name="checkmark-done" ></ion-icon>
+                <ion-label>Done</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button tab="new">
+                <ion-icon name="information-circle"></ion-icon>
+                <ion-label>New</ion-label>
+            </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
 </ion-app>

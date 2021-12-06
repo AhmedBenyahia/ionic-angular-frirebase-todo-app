@@ -10,6 +10,7 @@ export interface Todo {
     id?: string;
     task: string;
     priority: number;
+    done?: boolean;
     createdAt: number;
 }
 

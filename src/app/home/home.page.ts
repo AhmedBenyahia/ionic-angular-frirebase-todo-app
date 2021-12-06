@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Todo, TodoService} from '../services/todo.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -9,14 +10,14 @@ import {Todo, TodoService} from '../services/todo.service';
 export class HomePage implements OnInit {
     todos: Todo[];
 
-    constructor(private todoService: TodoService) {
+    constructor(private todoService: TodoService, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
         this.todoService
             .getTodos()
             .subscribe(res => {
-                this.todos = res;
+                this.todos = res.filter(c => c.done === this.route.snapshot.data.done);
             });
     }
 

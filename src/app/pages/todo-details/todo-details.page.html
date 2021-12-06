@@ -22,6 +22,13 @@
                        [(ngModel)]="todo.priority"></ion-input>
         </ion-item>
     </ion-list>
+
+    <ion-item>
+        <ion-checkbox color="dark" [(ngModel)]="todo.done" slot="start"></ion-checkbox>
+        <ion-label>Done</ion-label>
+    </ion-item>
+
+
     <ion-button expand="full"
                 (click)="saveTodo()">Save
     </ion-button>
