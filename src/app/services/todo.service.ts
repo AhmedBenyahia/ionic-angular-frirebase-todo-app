@@ -5,6 +5,7 @@ import {
 } from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {AuthService} from './auth.service';
 
 export interface Todo {
     id?: string;
@@ -12,6 +13,7 @@ export interface Todo {
     priority: number;
     done?: boolean;
     createdAt: number;
+    userId?: string;
 }
 
 @Injectable({
@@ -22,12 +24,12 @@ export class TodoService {
 
     private todos: Observable<Todo[]>;
 
-    constructor(db: AngularFirestore) {
+    constructor(db: AngularFirestore, private _authService: AuthService) {
         this.todosCollection = db.collection<Todo>('todos');
 
         this.todos = this.todosCollection.snapshotChanges().pipe(
             map((actions) => {
-                return actions.map((todo) => {
+                return actions.filter(todo => todo.payload.doc.data().userId === _authService.currentUserId).map((todo) => {
                     const data = todo.payload.doc.data();
                     const id = todo.payload.doc.id;
                     return {id, ...data};
@@ -48,7 +50,8 @@ export class TodoService {
         return this.todosCollection.doc(id).update(todo);
     }
 
-    addTodo(todo: Todo): Promise<any> {
+    async addTodo(todo: Todo): Promise<any> {
+        todo.userId = this._authService.currentUserId;
         return this.todosCollection.add(todo);
     }
 

@@ -1,6 +1,6 @@
 <ion-app>
     <ion-router-outlet></ion-router-outlet>
-    <ion-tabs>
+    <ion-tabs *ngIf="_authService.currentUserId">
         <ion-tab-bar slot="bottom">
             <ion-tab-button tab="home">
                 <ion-icon name="calendar"></ion-icon>
