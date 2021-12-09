@@ -6,7 +6,7 @@
 
 <ion-content>
 
-  <form (ngSubmit)="login()" [formGroup]="credentials">
+  <form (ngSubmit)="register()" [formGroup]="credentials">
     <div class="input-group">
       <ion-item>
         <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
@@ -22,10 +22,19 @@
         <span *ngIf="password.errors?.required">Password is required</span>
         <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
       </div>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Confirmation Password" formControlName="passwordConfirm"></ion-input>
+    </ion-item>
+    <div *ngIf="(passwordConfirm.dirty || passwordConfirm.touched || passwordConfirm.value) && passwordConfirm.errors" class="errors">
+      <span *ngIf="passwordConfirm.errors?.required">Password is required</span>
+      <span *ngIf="passwordConfirm.errors?.minlength">Password needs to be 6 characters</span>
+      <span *ngIf="passwordConfirm.errors.isMatching === false">Password do not match</span>
+    </div>
     </div>
 
-    <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
-    <ion-button type="button" expand="block" color="light" fill="clear" routerLink="/register">Not yet a member? Sign up!
+    <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Register</ion-button>
+    <ion-button type="button" expand="block" color="light" fill="clear" routerLink="/login">Already member? Sign in!
     </ion-button>
 
     <ion-button type="button" expand="block" color="tertiary" (click)="loginWithGoogle()">

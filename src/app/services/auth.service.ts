@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import firebase from 'firebase';
 import {Observable, Observer, ReplaySubject, Subject} from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import {AbstractControl, ValidationErrors} from '@angular/forms';
 @Injectable({
     providedIn: 'root'
 })
@@ -54,7 +55,20 @@ export class AuthService {
                     });
         });
     }
-
+    // sign up with email and password
+    signUpUser(value) {
+        return new Promise<any>((resolve, reject) => {
+            // call firebase login api
+            this.angularFireAuth.createUserWithEmailAndPassword(value.email, value.password)
+                .then(
+                    result => {
+                        resolve(result);
+                    },
+                    err => {
+                        reject(err);
+                    });
+        });
+    }
     // login with google account
     authenticateWithGoogle() {
         this.provider = new firebase.auth.GoogleAuthProvider();
@@ -77,5 +91,16 @@ export class AuthService {
                 // Handle Errors here.
                 this._user.error(error);
         });
+    }
+
+    // check the matching values of passwords in register form
+    matchValues(matchTo: string): (AbstractControl) => ValidationErrors | null {
+        return (control: AbstractControl): ValidationErrors | null => {
+            return !!control.parent &&
+            !!control.parent.value &&
+            control.value === control.parent.controls[matchTo].value
+                ? null
+                : { isMatching: false };
+        };
     }
 }
