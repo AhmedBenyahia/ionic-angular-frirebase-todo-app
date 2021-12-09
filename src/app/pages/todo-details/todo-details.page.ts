@@ -30,24 +30,25 @@ export class TodoDetailsPage implements OnInit {
     }
 
     ngOnInit(): void {
+        // get data id from current url parameter
         this.todoId = this.route.snapshot.params['id'];
         if (this.todoId) {
             this.loadTodo();
         }
     }
-
+    // load the detail of current data
     async loadTodo(): Promise<any> {
         const loading = await this.loadingController.create({
             message: 'Loading Todo..',
         });
         await loading.present();
-
+        // call getTodo function from todos service
         this.todoService.getTodo(this.todoId).subscribe((res) => {
             loading.dismiss();
             this.todo = res;
         });
     }
-
+    // update the current data
     async saveTodo(): Promise<any> {
         const loading = await this.loadingController.create({
             message: 'Saving Todo..',

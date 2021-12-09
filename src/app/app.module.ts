@@ -7,6 +7,7 @@ import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 
 import {AngularFireModule} from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import {AngularFirestoreModule, SETTINGS} from '@angular/fire/firestore';
 
 import {AppComponent} from './app.component';
@@ -22,6 +23,7 @@ import {environment} from '../environments/environment';
         AppRoutingModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
+        AngularFireAuthModule
     ],
     providers: [
         {provide: SETTINGS, useValue: {}},
