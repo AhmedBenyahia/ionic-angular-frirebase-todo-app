@@ -23,14 +23,18 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    // if user already connect redirect to home page
     if (this._authService.currentUser) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
     }
+    // create form validation
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+
+  // login with email and password
   async login() {
     const loading = await this.loadingController.create();
     await loading.present();
@@ -41,6 +45,7 @@ export class LoginPage implements OnInit {
 
         }, async(err) => {
           await loading.dismiss();
+          // handle errors in simple alert
           const alert = await this.alertController.create({
             header: 'Login failed',
             message: err.message ,
@@ -50,12 +55,14 @@ export class LoginPage implements OnInit {
           await alert.present();
          });
   }
+  // login with google
   async loginWithGoogle() {
     this._authService.authenticateWithGoogle();
     this._authService.user.subscribe(value => {
       this.router.navigate(['/home']);
     });
   }
+
   get email() {
     return this.credentials.get('email');
   }
